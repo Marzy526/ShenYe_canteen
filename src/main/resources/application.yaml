@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 spring:
   application:
     #应用的名称，可选
@@ -15,6 +16,12 @@ spring:
     username: 2829794258@qq.com
     password: ogyxqnddnsondghb
     default-encoding: utf-8
+  redis:
+    host: 192.168.19.100
+    port: 6379
+    password: mzy526
+    database: 0
+
 mybatis-plus:
   configuration:
     # 在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
@@ -24,5 +31,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
 reggie:
   path: C:\Users\MUSTINIAN\Desktop\photo\
