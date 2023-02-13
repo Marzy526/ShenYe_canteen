@@ -16,6 +16,8 @@ import com.canteen.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +31,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/setmeal")
 @Slf4j
 public class SetmealController {
-
     @Autowired
     private SetmealService setmealService;
     @Autowired
     private SetmealDishService setmealDishService;
-
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -46,6 +46,7 @@ public class SetmealController {
      * @return
      */
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true) //清除setmealCache下所有缓存数据
     public R<String> save(@RequestBody SetmealDto setmealDto){
         setmealService.saveWithDish(setmealDto);
         return R.success("新增套餐成功");
@@ -102,6 +103,7 @@ public class SetmealController {
      * @return
      */
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true) //清除setmealCache下所有缓存数据
     public R<String> delete(@RequestParam List<Long> ids){
         log.info("ids:{}",ids);
 
@@ -116,14 +118,13 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value = "setCache",key = "#setmeal.categoryId+'_'+#setmeal.status")
     public R<List<Setmeal>> list(Setmeal setmeal){
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
         queryWrapper.eq(setmeal.getStatus() != null,Setmeal::getStatus,setmeal.getStatus());
         queryWrapper.orderByDesc(Setmeal::getUpdateTime);
-
         List<Setmeal> list = setmealService.list(queryWrapper);
-
         return R.success(list);
     }
 
@@ -159,12 +160,11 @@ public class SetmealController {
      * @return
      */
     @PutMapping
+
     public R<String> update(@RequestBody SetmealDto setmealDto){
         setmealService.updateSetmealDto(setmealDto);
         return R.success("修改套餐成功");
     }
-
-
 
     /**
      * 移动端点击套餐图片查看套餐具体内容
