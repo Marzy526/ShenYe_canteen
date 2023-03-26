@@ -10,16 +10,16 @@ spring:
 #      driver-class-name: com.mysql.cj.jdbc.Driver
 #      url: jdbc:mysql://localhost:3306/shop?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
 #      username: root
-#      password: mzy526
+#      password: 
   mail:
     host: smtp.qq.com
-    username: 2829794258@qq.com
-    password: ogyxqnddnsondghb
+    username: @qq.com
+    password: 
     default-encoding: utf-8
   redis:
-    host: 192.168.19.100
+    host: 
     port: 6379
-    password: mzy526
+    password: 
     database: 0
   cache:
     redis:
@@ -34,14 +34,14 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://192.168.19.100:3307/shop?characterEncoding=utf-8
         username: root
-        password: mzy526
+        password: 
       # 从数据源
       slave:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://192.168.19.100:3308/shop?characterEncoding=utf-8
         username: root
-        password: mzy526
+        password: 
     masterslave:
       # 读写分离配置
       load-balance-algorithm-type: round_robin
